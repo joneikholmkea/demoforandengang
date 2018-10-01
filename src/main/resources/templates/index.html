@@ -13,5 +13,11 @@
     <input type="submit" value="Add Person">
 </form>
 
+<form action="/updatePerson" th:each="person: ${persons}" method="post">
+    <input type="text" name="uname" th:value="${person.uname}">
+    <input type="hidden" name="id" th:value="${person.id}">
+    <input type="submit" value="Update">
+</form>
+
 </body>
 </html>
