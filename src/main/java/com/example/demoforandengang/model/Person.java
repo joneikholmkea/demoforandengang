@@ -5,10 +5,14 @@ public class Person {
     private int id;
     private String uname;
 
-    public Person(int id, String uname) {
-        this.id = id;
+    public Person(String uname) {
         this.uname = uname;
     }
+
+//    public Person(int id, String uname) {
+//        this.id = id;
+//        this.uname = uname;
+//    }
     public void setUname(String uname) {
         this.uname = uname;
     }
