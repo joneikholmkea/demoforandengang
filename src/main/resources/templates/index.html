@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+
 </head>
 <body>
 <h3>De kom flyvende med storken</h3>
 
-<form action="/addPerson" method="post">
+<form method="post">
     <input type="text" name="uname">
-    <input type="submit" value="Add Person">
+    <input type="submit" name="addperson" value="Add Person">
 </form>
 
 <form action="/updatePerson" th:each="person: ${persons}" method="post">

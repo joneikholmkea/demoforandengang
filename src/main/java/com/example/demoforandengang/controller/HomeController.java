@@ -1,5 +1,6 @@
 package com.example.demoforandengang.controller;
 
+import com.example.demoforandengang.model.DBManager;
 import com.example.demoforandengang.model.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,15 +14,17 @@ public class HomeController {
 
     private List<Person> persons = new ArrayList<>();
     private static final String personsStr = "persons";
+    private DBManager dbManager = new DBManager();
     @RequestMapping("/")
     public String getIndex(){
         return "index"; // henviser til index.html som vi skal lave...
     }
 
-    @RequestMapping("/addPerson")
+    @RequestMapping(value = "/", params = "addperson")
     public String addPerson(Model model, Person person){
         person.setId(persons.size() + 1);
-        persons.add(person);
+       // persons.add(person);
+        dbManager.insertPerson(person);
         System.out.println("modtaget Person " + person.getUname());
         model.addAttribute(personsStr, persons); // tag persons med over til html siden
         return "index"; // henviser til index.html som vi skal lave...
