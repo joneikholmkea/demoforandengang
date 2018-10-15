@@ -1,6 +1,7 @@
 package com.example.demoforandengang.model;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBManager {
@@ -55,7 +56,20 @@ public class DBManager {
 
 
     public List<Person> readAllPersons(){
-        return null;
+        String sql = "SELECT * FROM person";
+        List<Person> list = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                int id = resultSet.getInt(1);
+                String uname = resultSet.getString(2);
+                list.add(new Person(id,uname));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public Person readPerson(int id){
@@ -69,6 +83,14 @@ public class DBManager {
     }
 
     public void deletePerson(Person person){
-
+        String sql = "DELETE FROM person WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, person.getId());
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("Slettet " + rowsAffected + " række(r).");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

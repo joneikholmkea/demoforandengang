@@ -16,7 +16,10 @@ public class HomeController {
     private static final String personsStr = "persons";
     private DBManager dbManager = new DBManager();
     @RequestMapping("/")
-    public String getIndex(){
+    public String getIndex(Model model){
+        // problem: persons arrayet er tomt !!
+        persons = dbManager.readAllPersons();
+        model.addAttribute(personsStr, persons); // tag persons med over til html siden
         return "index"; // henviser til index.html som vi skal lave...
     }
 
@@ -29,6 +32,17 @@ public class HomeController {
         model.addAttribute(personsStr, persons); // tag persons med over til html siden
         return "index"; // henviser til index.html som vi skal lave...
     }
+
+    @RequestMapping(value = "/", params = "deleteperson")
+    public String deletePerson(Model model, Person person){
+        //1. kald på DBManager om at slette denne person
+        dbManager.deletePerson(person);
+        // 2. kald på DBManager om at returnere alle rækker, efter at have slettet
+        persons = dbManager.readAllPersons();
+        model.addAttribute(personsStr, persons);
+        return "index";
+    }
+
     @RequestMapping("/updatePerson")
     public String updatePerson(Model model, Person person){
         replacePerson(person);

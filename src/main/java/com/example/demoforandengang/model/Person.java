@@ -9,10 +9,13 @@ public class Person {
         this.uname = uname;
     }
 
-//    public Person(int id, String uname) {
-//        this.id = id;
-//        this.uname = uname;
-//    }
+    public Person(int id, String uname) {
+        this.id = id;
+        this.uname = uname;
+    }
+    public Person(){
+    }
+
     public void setUname(String uname) {
         this.uname = uname;
     }
