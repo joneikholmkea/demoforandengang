@@ -29,6 +29,7 @@ public class HomeController {
        // persons.add(person);
         dbManager.insertPerson(person);
         System.out.println("modtaget Person " + person.getUname());
+        persons = dbManager.readAllPersons();
         model.addAttribute(personsStr, persons); // tag persons med over til html siden
         return "index"; // henviser til index.html som vi skal lave...
     }
