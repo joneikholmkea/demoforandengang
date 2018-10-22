@@ -42,11 +42,10 @@ public class DBManager {
     }
 
     public void insertPerson(Person person){
-        String sql = "INSERT INTO person VALUES (?,?)";
+        String sql = "INSERT INTO person VALUES (null,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, 0);
-            statement.setString(2, person.getUname());
+            statement.setString(1, person.getUname());
             int rows = statement.executeUpdate();
             System.out.println("Rows added: " + rows);
         } catch (SQLException e) {
