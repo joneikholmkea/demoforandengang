@@ -13,13 +13,13 @@ import java.util.List;
 public class HomeController {
 
     private List<Person> persons = new ArrayList<>();
-    private static final String personsStr = "persons";
+    private final String personsStr = "persons";  // vi har fundet på dette navn selv!
     private DBManager dbManager = new DBManager();
     @RequestMapping("/")
     public String getIndex(Model model){
         // problem: persons arrayet er tomt !!
         persons = dbManager.readAllPersons();
-        model.addAttribute(personsStr, persons); // tag persons med over til html siden
+        model.addAttribute("persons", persons); // tag persons med over til html siden
         return "index"; // henviser til index.html som vi skal lave...
     }
 
