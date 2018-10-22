@@ -11,11 +11,11 @@ public class DBManager {
     final String DB_PW = "";
     private Connection connection = null;
     public static void main(String[] args) {
-        DBManager dbManager = new DBManager();
-        dbManager.dbInit();
-        // test den nye metode insertPerson(...) her
-        Person p = new Person("Sikker Ole med id");
-        dbManager.insertPerson(p);
+//        DBManager dbManager = new DBManager();
+//        dbManager.dbInit();
+//        // test den nye metode insertPerson(...) her
+//        Person p = new Person("Sikker Ole med id");
+//        dbManager.insertPerson(p);
     }
 
     public DBManager(){
@@ -42,10 +42,11 @@ public class DBManager {
     }
 
     public void insertPerson(Person person){
-        String sql = "INSERT INTO person VALUES (null,?)";
+        String sql = "INSERT INTO person VALUES (null,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, person.getUname());
+            statement.setString(2, person.getPassword());
             int rows = statement.executeUpdate();
             System.out.println("Rows added: " + rows);
         } catch (SQLException e) {

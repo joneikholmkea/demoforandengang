@@ -25,8 +25,6 @@ public class HomeController {
 
     @RequestMapping(value = "/", params = "addperson")
     public String addPerson(Model model, Person person){
-        person.setId(persons.size() + 1);
-       // persons.add(person);
         dbManager.insertPerson(person);
         System.out.println("modtaget Person " + person.getUname());
         persons = dbManager.readAllPersons();
