@@ -18,8 +18,19 @@ public class HomeController {
     @RequestMapping("/")
     public String getIndex(Model model){
         // problem: persons arrayet er tomt !!
-        persons = dbManager.readAllPersons();
+        //persons = dbManager.readAllPersons();
         model.addAttribute("persons", persons); // tag persons med over til html siden
+        return "index"; // henviser til index.html som vi skal lave...
+    }
+
+    @RequestMapping(value = "/", params = "login")
+    public String login(Model model, Person person){
+        if(dbManager.login(person)) {
+            persons = dbManager.readAllPersons();
+        }else {
+            persons = new ArrayList<>();
+        }
+        model.addAttribute(personsStr, persons); // tag persons med over til html siden
         return "index"; // henviser til index.html som vi skal lave...
     }
 

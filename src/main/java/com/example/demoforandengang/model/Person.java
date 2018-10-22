@@ -24,6 +24,12 @@ public class Person {
     public Person(){
     }
 
+    public Person(int id, String uname, String password) {
+        this.id = id;
+        this.uname = uname;
+        this.password = password;
+    }
+
     public void setUname(String uname) {
         this.uname = uname;
     }

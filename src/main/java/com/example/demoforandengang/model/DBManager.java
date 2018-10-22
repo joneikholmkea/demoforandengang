@@ -64,7 +64,8 @@ public class DBManager {
             while (resultSet.next()){
                 int id = resultSet.getInt(1);
                 String uname = resultSet.getString(2);
-                list.add(new Person(id,uname));
+                String password = resultSet.getString(3);
+                list.add(new Person(id,uname, password));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,5 +93,22 @@ public class DBManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean login(Person person) {
+        String sql = "SELECT * FROM person WHERE uname = ? and password = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, person.getUname());
+            preparedStatement.setString(2, person.getPassword());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                // hvis vi er her, så véd vi at brugeren findes med korrekt password
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
