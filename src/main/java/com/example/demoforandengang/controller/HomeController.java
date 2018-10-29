@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +17,24 @@ public class HomeController {
     private final String personsStr = "persons";  // vi har fundet på dette navn selv!
     private DBManager dbManager = new DBManager();
     @RequestMapping("/")
-    public String getIndex(Model model){
+    public String getIndex(Model model, HttpSession session){
         // problem: persons arrayet er tomt !!
-        //persons = dbManager.readAllPersons();
-        model.addAttribute("persons", persons); // tag persons med over til html siden
+        if(session.getAttribute("isLoggedIn") == "yes") {
+            persons = dbManager.readAllPersons();
+        }else {
+            persons = new ArrayList<>();
+        }
+            model.addAttribute("persons", persons); // tag persons med over til html siden
         return "index"; // henviser til index.html som vi skal lave...
     }
 
     @RequestMapping(value = "/", params = "login")
-    public String login(Model model, Person person){
+    public String login(Model model, Person person, HttpSession session){
         if(dbManager.login(person)) {
             persons = dbManager.readAllPersons();
+            session.setAttribute("isLoggedIn", "yes");
         }else {
+            session.setAttribute("isLoggedIn", "no");
             persons = new ArrayList<>();
         }
         model.addAttribute(personsStr, persons); // tag persons med over til html siden

@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// macOS: MySQL server is located at /usr/local/mysql_server/
+// macOS: MySQL log files are stored at /usr/local/mysql_server/data/logfile.log
 public class DBManager {
 
     final String DB_URL = "jdbc:mysql://localhost:3306/nydb?useSSL=false&serverTimezone=UTC";
@@ -11,11 +13,7 @@ public class DBManager {
     final String DB_PW = "";
     private Connection connection = null;
     public static void main(String[] args) {
-//        DBManager dbManager = new DBManager();
-//        dbManager.dbInit();
-//        // test den nye metode insertPerson(...) her
-//        Person p = new Person("Sikker Ole med id");
-//        dbManager.insertPerson(p);
+
     }
 
     public DBManager(){
@@ -25,6 +23,13 @@ public class DBManager {
     private void dbInit(){
         try {
             connection = DriverManager.getConnection(DB_URL,DB_USER, DB_PW);
+            Statement statement = connection.createStatement();
+            String sql = "SET GLOBAL log_output = 'FILE'";  // get log messages in a file
+            statement.execute(sql);
+            sql =  "SET GLOBAL general_log_file = 'logfile1234.log'";
+            statement.execute(sql);
+            sql =  "SET GLOBAL general_log = 'ON'";
+            statement.execute(sql);
             System.out.println("OK dbInit() " + connection.getCatalog());
         }catch (Exception e){
             System.out.println("fejl i dbInit() " + e);
@@ -81,6 +86,7 @@ public class DBManager {
 
     public void updatePerson(Person person){
 
+
     }
 
     public void deletePerson(Person person){
@@ -101,6 +107,7 @@ public class DBManager {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, person.getUname());
             preparedStatement.setString(2, person.getPassword());
+            System.out.println(preparedStatement);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 // hvis vi er her, så véd vi at brugeren findes med korrekt password
