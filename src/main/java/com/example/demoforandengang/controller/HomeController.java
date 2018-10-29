@@ -18,7 +18,6 @@ public class HomeController {
     private DBManager dbManager = new DBManager();
     @RequestMapping("/")
     public String getIndex(Model model, HttpSession session){
-        // problem: persons arrayet er tomt !!
         if(session.getAttribute("isLoggedIn") == "yes") {
             persons = dbManager.readAllPersons();
         }else {
@@ -41,7 +40,7 @@ public class HomeController {
         return "index"; // henviser til index.html som vi skal lave...
     }
 
-    @RequestMapping(value = "/", params = "addperson")
+    @RequestMapping(value = "/", params = "addperson") // mangler login check
     public String addPerson(Model model, Person person){
         dbManager.insertPerson(person);
         System.out.println("modtaget Person " + person.getUname());
@@ -50,7 +49,7 @@ public class HomeController {
         return "index"; // henviser til index.html som vi skal lave...
     }
 
-    @RequestMapping(value = "/", params = "deleteperson")
+    @RequestMapping(value = "/", params = "deleteperson") // mangler login check
     public String deletePerson(Model model, Person person){
         //1. kald på DBManager om at slette denne person
         dbManager.deletePerson(person);
@@ -60,19 +59,15 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping("/updatePerson")
+    @RequestMapping(value = "/", params = "updateperson")  // mangler login check
     public String updatePerson(Model model, Person person){
-        replacePerson(person);
+        dbManager.updatePerson(person);
+        System.out.println("updateperson er blevet kaldt med " + person);
+        persons = dbManager.readAllPersons();
         model.addAttribute(personsStr, persons);
         return "index";
     }
 
-    private void replacePerson(Person person){
-        for (Person p : persons) {
-            if(p.getId() == person.getId()){
-                p.setUname(person.getUname());
-            }
-        }
-    }
+
 
 }

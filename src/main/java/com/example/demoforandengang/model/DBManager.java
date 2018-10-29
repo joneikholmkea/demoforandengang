@@ -85,7 +85,17 @@ public class DBManager {
 
 
     public void updatePerson(Person person){
-
+        String sql = "UPDATE person SET uname = ?, password = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, person.getUname());
+            statement.setString(2, person.getPassword());
+            statement.setInt(3, person.getId());
+            int rows = statement.executeUpdate();
+            System.out.println("Rows changed: " + rows);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
