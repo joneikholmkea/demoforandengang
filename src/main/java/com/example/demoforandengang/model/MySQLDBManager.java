@@ -6,7 +6,7 @@ import java.util.List;
 
 // macOS: MySQL server is located at /usr/local/mysql_server/
 // macOS: MySQL log files are stored at /usr/local/mysql_server/data/logfile.log
-public class DBManager implements IDBManager {
+public class MySQLDBManager implements IDBManager {
 
     final String DB_URL = "jdbc:mysql://localhost:3306/nydb?useSSL=false&serverTimezone=UTC";
     final String DB_USER = "root";
@@ -16,7 +16,7 @@ public class DBManager implements IDBManager {
 
     }
 
-    public DBManager(){
+    public MySQLDBManager(){
         dbInit();
     }
 

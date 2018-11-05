@@ -1,6 +1,6 @@
 package com.example.demoforandengang.controller;
 
-import com.example.demoforandengang.model.DBManager;
+import com.example.demoforandengang.model.MySQLDBManager;
 import com.example.demoforandengang.model.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ public class HomeController {
 
     private List<Person> persons = new ArrayList<>();
     private final String personsStr = "persons";  // vi har fundet på dette navn selv!
-    private DBManager dbManager = new DBManager();
+    private MySQLDBManager dbManager = new MySQLDBManager();
     @RequestMapping("/")
     public String getIndex(Model model, HttpSession session){
         if(session.getAttribute("isLoggedIn") == "yes") {
@@ -51,9 +51,9 @@ public class HomeController {
 
     @RequestMapping(value = "/", params = "deleteperson") // mangler login check
     public String deletePerson(Model model, Person person){
-        //1. kald på DBManager om at slette denne person
+        //1. kald på MySQLDBManager om at slette denne person
         dbManager.deletePerson(person);
-        // 2. kald på DBManager om at returnere alle rækker, efter at have slettet
+        // 2. kald på MySQLDBManager om at returnere alle rækker, efter at have slettet
         persons = dbManager.readAllPersons();
         model.addAttribute(personsStr, persons);
         return "index";
