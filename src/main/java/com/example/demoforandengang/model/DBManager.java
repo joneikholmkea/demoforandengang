@@ -6,7 +6,7 @@ import java.util.List;
 
 // macOS: MySQL server is located at /usr/local/mysql_server/
 // macOS: MySQL log files are stored at /usr/local/mysql_server/data/logfile.log
-public class DBManager {
+public class DBManager implements IDBManager {
 
     final String DB_URL = "jdbc:mysql://localhost:3306/nydb?useSSL=false&serverTimezone=UTC";
     final String DB_USER = "root";
@@ -46,12 +46,14 @@ public class DBManager {
         }
     }
 
+    @Override
     public void insertPerson(Person person){
+
         String sql = "INSERT INTO person VALUES (null,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, person.getUname());
-            statement.setString(2, person.getPassword());
+            statement.setString(2, person.getHashedPassword());
             int rows = statement.executeUpdate();
             System.out.println("Rows added: " + rows);
         } catch (SQLException e) {
@@ -60,6 +62,7 @@ public class DBManager {
     }
 
 
+    @Override
     public List<Person> readAllPersons(){
         String sql = "SELECT * FROM person";
         List<Person> list = new ArrayList<>();
@@ -78,12 +81,14 @@ public class DBManager {
         return list;
     }
 
+    @Override
     public Person readPerson(int id){
         return null;
     }
 
 
 
+    @Override
     public void updatePerson(Person person){
         String sql = "UPDATE person SET uname = ?, password = ? WHERE id = ?";
         try {
@@ -99,6 +104,7 @@ public class DBManager {
 
     }
 
+    @Override
     public void deletePerson(Person person){
         String sql = "DELETE FROM person WHERE id = ?";
         try {
@@ -111,6 +117,7 @@ public class DBManager {
         }
     }
 
+    @Override
     public boolean login(Person person) {
         String sql = "SELECT * FROM person WHERE uname = ? and password = ?";
         try {
@@ -120,8 +127,7 @@ public class DBManager {
             System.out.println(preparedStatement);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                // hvis vi er her, så véd vi at brugeren findes med korrekt password
-                return true;
+                return  true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
