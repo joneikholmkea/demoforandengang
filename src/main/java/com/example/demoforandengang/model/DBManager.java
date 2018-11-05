@@ -70,7 +70,7 @@ public class DBManager implements IDBManager {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
-                int id = resultSet.getInt(1);
+                String id = resultSet.getInt(1) + "";
                 String uname = resultSet.getString(2);
                 String password = resultSet.getString(3);
                 list.add(new Person(id,uname, password));
@@ -95,7 +95,9 @@ public class DBManager implements IDBManager {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, person.getUname());
             statement.setString(2, person.getPassword());
-            statement.setInt(3, person.getId());
+            int id = Integer.parseInt(person.getId()); // fordi i denne klasse forventes der
+            // at Person.id har typen int
+            statement.setInt(3, id);
             int rows = statement.executeUpdate();
             System.out.println("Rows changed: " + rows);
         } catch (SQLException e) {
@@ -109,7 +111,8 @@ public class DBManager implements IDBManager {
         String sql = "DELETE FROM person WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, person.getId());
+            int id = Integer.parseInt(person.getId());
+            preparedStatement.setInt(1, id);
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("Slettet " + rowsAffected + " række(r).");
         } catch (SQLException e) {

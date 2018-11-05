@@ -4,19 +4,19 @@ import com.example.demoforandengang.security.Hashing;
 
 public class Person {
 
-    private int id;
+    private String id;
     private String uname;
     private String password;
 
 
-    public Person(int id, String uname) {
+    public Person(String id, String uname) {
         this.id = id;
         this.uname = uname;
     }
     public Person(){
     }
 
-    public Person(int id, String uname, String password) {
+    public Person(String id, String uname, String password) {
         this.id = id;
         this.uname = uname;
         this.password = password;
@@ -25,11 +25,11 @@ public class Person {
     public void setUname(String uname) {
         this.uname = uname;
     }
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
